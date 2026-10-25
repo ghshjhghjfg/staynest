@@ -1,0 +1,1565 @@
+# PROJECT: SMART HOSTEL MANAGEMENT SYSTEM
+## Full-Stack Web Application — Landing Page, Authentication, and Role-Based Dashboard
+
+Act as a senior full-stack software engineer, product designer, UX architect, and database engineer. Build a complete, functional, responsive Hostel Management System with a professional, production-oriented interface.
+
+The project must include a public landing page, login page, student registration page, protected dashboards, and the essential hostel management modules described below.
+
+Do not build just a static UI mockup. Implement working navigation, forms, validation, authentication, CRUD operations, database integration, filtering, status updates, and role-based access control.
+
+Use the two supplied reference images as follows:
+
+- **Reference Image 1:** Source of the Hostel Management System requirements, user roles, workflows, and feature modules.
+- **Reference Image 2:** The primary visual design reference. Follow its neutral grey surfaces, dark navy accents, compact navigation sidebar, white content panels, restrained borders, and clean data-dense dashboard layout.
+
+The result should look like a professionally designed product built by a real software team, not a generic AI-generated website.
+
+---
+
+# 1. PRODUCT IDENTITY
+
+Product name: HostelEase
+
+Product category: Hostel Administration and Student Welfare Management Platform.
+
+Tagline: "Better hostel management. A better student experience."
+
+Purpose:
+Create one centralized digital platform to manage hostel residents, room allocations, attendance, fee payments, leave requests, complaints, visitors, mess menus, maintenance, notices, and administrative reports.
+
+Primary users:
+1. Hostel Administrator / Warden
+2. Student / Hostel Resident
+3. Hostel Staff
+
+Build a coherent system where all three roles use the same application but see different interfaces and permissions.
+
+Do not create three unrelated websites. Use a shared design system, authentication system, database, and application architecture.
+
+---
+
+# 2. TECHNOLOGY STACK
+
+Build the application using the following stack:
+
+Frontend:
+- React
+- TypeScript
+- Vite
+- React Router
+- Tailwind CSS
+- Lucide React icons
+- Recharts for charts and analytics
+- React Hook Form with Zod validation where appropriate
+
+Backend and database:
+- Supabase Authentication
+- Supabase PostgreSQL database
+- Supabase Storage for profile photos and item images where needed
+- Supabase Row Level Security policies
+
+Use the official Supabase JavaScript client.
+
+Important:
+- Keep Supabase URL and publishable/anonymous key in environment variables.
+- Never expose a Supabase service-role key in frontend code.
+- Include a complete `.env.example`.
+- Provide SQL migrations or a complete SQL setup script for tables, indexes, constraints, and row-level security policies.
+- Do not assume tables exist in Supabase.
+- If credentials are unavailable during development, provide a clearly identified demo mode with realistic seed data.
+- Never claim that authentication, email delivery, or database persistence works unless it is actually configured and tested.
+- Use compatible package versions. Avoid dependency conflicts between Vite, esbuild, React, and related packages.
+
+Suggested environment variables:
+
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+
+Keep the code modular and easy to maintain.
+
+---
+
+# 3. DESIGN SYSTEM — FOLLOW REFERENCE IMAGE 2
+
+The second reference image is the main design reference for the entire application.
+
+Use the following color palette:
+
+- Main background: #FEFEFE
+- Primary content surface: #F0F3F3
+- Secondary surface and borders: #D6DCE0
+- Sidebar and muted panel background: #B5C1C8
+- Secondary text and inactive elements: #727A84
+- Primary text, sidebar, and dark buttons: #0C1629
+
+These colors should be implemented as reusable CSS variables or Tailwind theme tokens.
+
+Suggested semantic tokens:
+
+--background: #FEFEFE;
+--surface: #F0F3F3;
+--surface-muted: #D6DCE0;
+--sidebar-background: #B5C1C8;
+--text-secondary: #727A84;
+--primary: #0C1629;
+--primary-hover: #1A2942;
+--border: #D6DCE0;
+--success: #287A52;
+--warning: #A66B16;
+--danger: #B54747;
+--info: #356B9A;
+
+Use semantic colors only for meaningful statuses, alerts, and data visualization. Do not introduce a rainbow palette.
+
+## Visual principles
+
+1. Use white and light grey as the dominant surfaces.
+2. Use dark navy for the main sidebar, primary actions, selected navigation, and important headings.
+3. Use the muted grey-blue from the reference for the sidebar or selected structural panels.
+4. Keep card backgrounds mostly white with subtle grey borders.
+5. Use small, consistent corner radii, approximately 8–12px.
+6. Avoid excessive shadows, glassmorphism, neon accents, gradient backgrounds, and decorative floating shapes.
+7. Use subtle hover and focus states.
+8. Maintain consistent spacing and alignment.
+9. Use compact tables and information-dense dashboards.
+10. Make the layout feel like a practical enterprise application rather than a promotional template.
+11. Use real-looking names, dates, room numbers, and amounts in demo data.
+12. Do not display fake live indicators, fake notifications, or fabricated payment confirmations.
+13. Use a consistent 4px/8px spacing system.
+14. Ensure accessible contrast and visible keyboard focus.
+
+## Typography
+
+Use Inter as the primary interface font.
+
+Use a clear typographic hierarchy:
+- Page headings: 24–30px, semibold.
+- Section headings: 16–20px, semibold.
+- Card values: 24–30px, semibold.
+- Body text: 13–15px.
+- Table content: 12–14px.
+- Secondary metadata: 12–13px.
+
+Avoid oversized marketing typography inside the dashboard.
+
+## Iconography
+
+Use Lucide React consistently.
+
+Examples:
+- LayoutDashboard
+- Users
+- BedDouble
+- Wallet
+- CalendarCheck
+- ClipboardList
+- MessageSquareWarning
+- Utensils
+- UserRoundCheck
+- Wrench
+- Megaphone
+- FileBarChart
+- Settings
+- LogOut
+
+Do not mix emoji, cartoon icons, and unrelated icon libraries.
+
+---
+
+# 4. APPLICATION ROUTES
+
+Implement these routes:
+
+Public routes:
+- `/` — Landing page
+- `/login` — Login
+- `/register` — Student registration
+- `/forgot-password` — Password recovery
+- `/reset-password` — Password reset
+
+Authenticated routes:
+- `/dashboard`
+- `/dashboard/students`
+- `/dashboard/rooms`
+- `/dashboard/fees`
+- `/dashboard/attendance`
+- `/dashboard/leaves`
+- `/dashboard/complaints`
+- `/dashboard/mess`
+- `/dashboard/visitors`
+- `/dashboard/maintenance`
+- `/dashboard/notices`
+- `/dashboard/reports`
+- `/dashboard/profile`
+- `/dashboard/settings`
+
+Optional staff-specific routes can be added where necessary.
+
+Implement protected routes. If a user is not authenticated, redirect them to `/login`.
+
+After successful login:
+- Administrator or warden → `/dashboard`
+- Student → `/dashboard`
+- Staff → `/dashboard`
+
+The dashboard content, sidebar navigation, permissions, and available actions must depend on the authenticated user's role.
+
+Do not allow users to change their own role by modifying a registration form or browser request.
+
+---
+
+# 5. LANDING PAGE
+
+Create a complete, polished, responsive public landing page.
+
+It must communicate the product clearly before directing visitors to authentication.
+
+## 5.1 Navigation bar
+
+Create a restrained header with:
+
+Left:
+- A custom HostelEase brand mark using a simple building or bed icon.
+- Product name: HostelEase.
+
+Right:
+- Features
+- How It Works
+- For Students
+- For Administrators
+- Login
+- Get Started
+
+Use a white background, subtle bottom border, and compact spacing.
+
+On mobile, use a functional collapsible navigation menu.
+
+The logo must be implemented as an actual icon and text, not an external image that may fail to load.
+
+## 5.2 Hero section
+
+Headline:
+
+"Hostel management, without the daily chaos."
+
+Supporting copy:
+
+"Manage residents, room allocations, payments, attendance, leave requests, and hostel operations from one organized workspace."
+
+Primary CTA:
+"Get Started"
+
+Secondary CTA:
+"Explore Features"
+
+The primary CTA should navigate to `/register`.
+
+The secondary CTA should scroll to the feature section.
+
+Include a realistic dashboard preview on the right side of the hero section on desktop.
+
+The preview should resemble the supplied grey dashboard reference:
+- Muted grey-blue frame.
+- Compact dark navy sidebar.
+- White dashboard panels.
+- Small KPI cards.
+- A recent activity table.
+- A simple chart.
+- A pending requests section.
+
+The preview is a visual representation of the product, not a fake interactive application layered over the landing page.
+
+On mobile, stack the preview below the text and ensure that it does not overflow.
+
+Avoid giant gradients, excessive rounded blobs, floating decorative icons, and generic marketing illustrations.
+
+## 5.3 Trust and benefits strip
+
+Show four practical benefits:
+
+- One place for hostel operations
+- Clear room availability
+- Trackable fees and requests
+- Role-based access
+
+Do not invent customer counts, institutional partnerships, awards, or user testimonials.
+
+## 5.4 Features section
+
+Heading:
+"Everything your hostel needs to run smoothly."
+
+Supporting text:
+"Replace scattered registers and repetitive follow-ups with one organized system."
+
+Create a consistent grid of feature cards.
+
+Include:
+
+1. Student Management
+   Maintain resident profiles, emergency contacts, guardian information, course details, and joining dates.
+
+2. Room Management
+   Track room capacity, occupied beds, available beds, floor information, and room allocations.
+
+3. Fee Management
+   Record fee structures, payments, outstanding balances, due dates, and payment history.
+
+4. Attendance
+   Record daily attendance and review monthly attendance summaries.
+
+5. Leave Requests
+   Submit, approve, and reject student leave applications with reasons and dates.
+
+6. Complaints
+   Submit issues, assign responsible staff, and track resolution progress.
+
+7. Mess Management
+   Publish menus and collect food feedback.
+
+8. Visitor Records
+   Record visitor details, purpose, entry time, and exit time.
+
+9. Maintenance
+   Report damaged equipment, assign repairs, and track completion.
+
+10. Notices
+    Publish hostel announcements, fee reminders, and maintenance notices.
+
+11. Reports
+    Generate summaries for occupancy, fee collections, attendance, and complaints.
+
+12. Role-Based Access
+    Ensure each role sees only the information and actions it is permitted to access.
+
+Each card should use one Lucide icon, a short title, and a concise description.
+
+Use white cards, light borders, and consistent icon sizes.
+
+## 5.5 How it works
+
+Create a four-step horizontal process:
+
+1. Register or sign in.
+2. Complete the student profile.
+3. Receive a room allocation from the administration.
+4. Manage everyday hostel activities through the dashboard.
+
+On mobile, display the steps vertically.
+
+Do not imply that registration automatically grants a room or confirms a fee payment.
+
+## 5.6 Role-specific sections
+
+Create two compact sections.
+
+For students:
+- View room details.
+- Track fees and payments.
+- Check attendance.
+- Submit leave requests.
+- Raise complaints.
+- View notices and mess menus.
+
+For administrators:
+- Manage student records.
+- Allocate rooms.
+- Track payments.
+- Review requests.
+- Monitor attendance.
+- Generate reports.
+
+Mention staff workflows briefly where appropriate.
+
+## 5.7 Final CTA
+
+Heading:
+"Bring your hostel operations into one workspace."
+
+Buttons:
+- Student Registration → `/register`
+- Sign In → `/login`
+
+## 5.8 Footer
+
+Include:
+- HostelEase brand.
+- Short product description.
+- Feature links.
+- Login and registration links.
+- Privacy Policy.
+- Terms of Service.
+- Contact information placeholder.
+
+Do not invent a real business address or contact number.
+
+---
+
+# 6. LOGIN PAGE
+
+Create a clean login page that follows the same grey and navy design system.
+
+Desktop layout:
+- A centered authentication panel or a balanced two-column layout.
+- Compact product branding.
+- White form surface.
+- Subtle grey background.
+- Dark navy primary button.
+
+Form fields:
+- Email address
+- Password
+
+Required features:
+- Email format validation.
+- Required-field validation.
+- Password visibility toggle.
+- Loading state.
+- Clear authentication errors.
+- Forgot password link.
+- Link to student registration.
+- Show the actual authenticated user's role after sign-in.
+
+The form must call Supabase Authentication when configured.
+
+Do not create a fake login button that redirects to the dashboard regardless of the credentials.
+
+After successful authentication:
+1. Fetch the user's profile from the database.
+2. Check that the profile is active.
+3. Retrieve the assigned role from trusted database records.
+4. Redirect to the appropriate dashboard.
+5. Display an understandable error if the account is not authorized.
+
+If demo mode is enabled, label it visibly as demo mode and provide working demo credentials only if they are actually configured.
+
+Never hardcode a password or secret into frontend code.
+
+---
+
+# 7. STUDENT REGISTRATION PAGE
+
+Registration is intended for students.
+
+Fields:
+- Full name
+- College or hostel email address
+- Password
+- Confirm password
+- Phone number
+- Student ID or roll number
+- Course / department
+- Academic year
+- Gender, only if required by the institution's room-allocation policy
+- Guardian name
+- Guardian phone number
+- Emergency contact
+- Requested hostel or room preference, if applicable
+
+Keep the form organized into logical sections.
+
+Requirements:
+- Validate all required fields.
+- Validate email format.
+- Validate password confirmation.
+- Enforce reasonable password security.
+- Validate phone numbers.
+- Prevent duplicate student IDs.
+- Display field-specific errors.
+- Show loading and success states.
+- Handle duplicate accounts gracefully.
+- Support email verification where configured.
+- Include a clear privacy notice.
+
+Registration must create an authentication account and a student profile.
+
+CRITICAL SECURITY RULE:
+Public registration must NEVER allow the user to assign themselves the administrator, warden, or staff role.
+
+New users must receive the `student` role by default. Administrative accounts must be provisioned through a trusted administrative process, such as a secure database seed or server-side invitation workflow.
+
+After successful registration:
+- If email verification is enabled, show a verification-pending screen.
+- If verification is not required and the account is active, send the student to the dashboard.
+- Show the actual account status instead of pretending the registration is fully approved.
+
+Do not automatically allocate a room without checking bed availability and allocation permissions.
+
+---
+
+# 8. DASHBOARD LAYOUT
+
+The dashboard is the most important part of the application.
+
+Match the supplied grey dashboard reference as closely as practical.
+
+## 8.1 Desktop layout
+
+Use a fixed-width or collapsible sidebar of approximately 220–250px.
+
+Sidebar:
+- HostelEase logo.
+- Dashboard.
+- Students.
+- Rooms.
+- Fees.
+- Attendance.
+- Leave Requests.
+- Complaints.
+- Mess.
+- Visitors.
+- Maintenance.
+- Notices.
+- Reports.
+- Settings.
+
+Show only the modules permitted for the user's role.
+
+Selected navigation should use a dark navy background with white text.
+
+Inactive navigation should use restrained grey text.
+
+At the bottom, show:
+- Current user's initials or profile image.
+- Name.
+- Role.
+- Profile link.
+- Logout action.
+
+Main content:
+- White or very light grey background.
+- Top header.
+- Breadcrumbs.
+- Page title.
+- Optional search.
+- Relevant actions.
+- Main cards, tables, forms, and charts.
+
+Header:
+- Page title or breadcrumb.
+- Search where useful.
+- Notification button.
+- Current date.
+- User avatar menu.
+
+Use a real responsive sidebar drawer on mobile.
+
+## 8.2 Dashboard overview
+
+Administrator dashboard KPI cards:
+
+- Total Students
+- Total Rooms
+- Available Beds
+- Pending Fees
+
+Use realistic demo values, such as:
+- 250 students
+- 80 rooms
+- 18 available beds
+- ₹2,40,000 outstanding fees
+
+These are demonstration values only. Label demo data appropriately and replace them with real database aggregates when connected.
+
+Below the KPI cards, show:
+
+A. Today's Attendance
+- Attendance percentage.
+- Present count.
+- Absent count.
+
+B. Pending Requests
+- Leave requests awaiting review.
+- Unresolved complaints.
+- Pending maintenance tasks.
+
+C. Room Occupancy
+- Occupied beds.
+- Available beds.
+- Total capacity.
+
+D. Fee Collection
+- Total collected.
+- Outstanding balance.
+- Collection trend.
+
+E. Recent Activity
+- Recent registrations.
+- Room allocations.
+- Payment entries.
+- Complaint updates.
+
+F. Charts
+- Student distribution by floor.
+- Room occupancy.
+- Complaints by category.
+- Monthly attendance.
+
+Use Recharts with responsive sizing and sensible legends.
+
+All charts must use actual query results when the backend is connected. In demo mode, use clearly identified sample data.
+
+Do not display randomly generated numbers that change on each page refresh.
+
+## 8.3 Dashboard interaction requirements
+
+- KPI cards can link to their respective modules.
+- Table rows should open the relevant detail page or drawer.
+- Filters must change displayed data.
+- Search must actually filter the relevant records.
+- Pagination must work.
+- Status badges must reflect actual stored statuses.
+- Buttons must perform real actions.
+- Empty states must explain what to do next.
+- Loading states must be present.
+- Error states must allow the user to recover.
+
+Do not create decorative controls that do nothing.
+
+---
+
+# 9. STUDENT MANAGEMENT
+
+Administrator and authorized staff capabilities:
+- Add a student.
+- Edit student details.
+- View a student profile.
+- Search by name, roll number, or email.
+- Filter by department, year, and account status.
+- View room allocation.
+- View attendance summary.
+- View fee balance.
+- View guardian information when authorized.
+- Deactivate an account using a controlled administrative workflow.
+
+Student table columns:
+- Student ID
+- Name
+- Department
+- Academic Year
+- Room
+- Fee Status
+- Account Status
+- Actions
+
+Use a details drawer or dedicated profile page.
+
+Do not expose guardian phone numbers or emergency contact information to unauthorized users.
+
+Prevent duplicate student IDs.
+
+---
+
+# 10. ROOM MANAGEMENT
+
+Create a room management interface.
+
+Features:
+- Create room.
+- Edit room.
+- Set building and floor.
+- Define room number.
+- Set room capacity.
+- Set room type.
+- View occupied beds.
+- View available beds.
+- Allocate a student.
+- Change room allocation.
+- Release a bed.
+- View allocation history.
+
+Room fields:
+- Room ID
+- Building
+- Floor
+- Room number
+- Capacity
+- Room type
+- Active status
+
+Calculate availability from actual active allocations.
+
+Enforce the following rules:
+- Occupied beds cannot exceed capacity.
+- A student cannot have two simultaneous active room allocations.
+- Two allocations cannot occupy the same bed.
+- Room changes must preserve allocation history.
+- Only authorized users may allocate or release beds.
+
+Use database constraints or transactional server-side operations to prevent race conditions. Do not rely solely on frontend validation.
+
+Create a clean table view and optional room overview grid.
+
+---
+
+# 11. HOSTEL FEE MANAGEMENT
+
+Create a dedicated fee management module.
+
+Features:
+- Configure fee categories.
+- Assign fee charges.
+- Set due dates.
+- Record payments.
+- View payment history.
+- Filter by paid, partially paid, pending, and overdue.
+- View outstanding balances.
+- Generate a printable fee receipt.
+- Export fee reports.
+
+Suggested fields:
+- Student ID
+- Fee category
+- Total amount
+- Amount paid
+- Outstanding amount
+- Due date
+- Payment status
+
+Use INR formatting throughout.
+
+Example:
+₹12,500.00
+
+Calculate outstanding balance as:
+
+Outstanding amount = Total charges - Confirmed payments.
+
+Prevent duplicate payment records and invalid negative amounts.
+
+Only authorized finance administrators may record or modify payment entries.
+
+IMPORTANT:
+Do not integrate a real payment gateway unless explicitly configured. A manually recorded payment must be labeled as recorded or pending verification, as appropriate. Never show a payment as successful merely because a button was clicked.
+
+Maintain an auditable payment history.
+
+---
+
+# 12. ATTENDANCE MANAGEMENT
+
+Create an attendance module.
+
+Features:
+- Daily attendance entry.
+- Student-wise attendance.
+- Date-wise attendance.
+- Monthly attendance summaries.
+- Present and absent counts.
+- Attendance percentage.
+- Search and filtering.
+- CSV export.
+
+Use a unique database constraint for student ID plus attendance date, unless the institution explicitly requires multiple attendance sessions.
+
+Allow authorized staff to record attendance.
+
+Students can view their own attendance but cannot modify official attendance records.
+
+Show a clear empty state if attendance has not yet been recorded for a date.
+
+Do not silently assume that students with no record are present.
+
+---
+
+# 13. LEAVE MANAGEMENT
+
+Student features:
+- Submit leave request.
+- Enter start and end dates.
+- Enter reason.
+- Enter destination or address if required.
+- Provide emergency contact if required.
+- View request history.
+- Cancel an eligible pending request.
+
+Administrator features:
+- Review requests.
+- Approve.
+- Reject with a reason.
+- Filter by status and date.
+- View student details when authorized.
+
+Statuses:
+- Pending
+- Approved
+- Rejected
+- Cancelled
+
+Validate date ranges.
+
+Prevent approval of invalid requests.
+
+Record reviewer, review time, and rejection reason.
+
+Students must not approve their own leave requests.
+
+---
+
+# 14. COMPLAINT MANAGEMENT
+
+Allow students to create complaints with:
+
+- Complaint title
+- Category
+- Description
+- Location or room number
+- Optional photo attachment
+- Priority
+- Submission date
+
+Categories:
+- Electrical
+- Plumbing
+- Water
+- Wi-Fi
+- Cleanliness
+- Furniture
+- Food
+- Other
+
+Statuses:
+- Submitted
+- Assigned
+- In Progress
+- Resolved
+- Closed
+
+Staff can:
+- View assigned complaints.
+- Update progress.
+- Add internal notes where permitted.
+- Mark work completed.
+
+Administrators can:
+- Assign complaints.
+- Set priority.
+- Reassign tasks.
+- Review resolution time.
+- Filter by category and status.
+
+Students should only see their own complaints and any shared updates intended for them.
+
+Store attachments securely and restrict access to authorized users.
+
+---
+
+# 15. MESS AND FOOD MANAGEMENT
+
+Create a mess management module.
+
+Features:
+- Publish daily menus.
+- Manage breakfast, lunch, snacks, and dinner.
+- Display weekly menus.
+- Collect student feedback.
+- Categorize food complaints.
+- Track whether feedback has been reviewed.
+
+Use a weekly menu view with a simple table or day selector.
+
+Only authorized staff may publish or edit menus.
+
+Students can read published menus and submit feedback.
+
+Do not allow one student to edit another student's feedback.
+
+---
+
+# 16. VISITOR MANAGEMENT
+
+Create a visitor register.
+
+Fields:
+- Visitor name
+- Visitor phone
+- Relationship to student
+- Student being visited
+- Purpose
+- Entry date and time
+- Exit date and time
+- Staff member recording the visit
+
+Features:
+- Register entry.
+- Record checkout.
+- Search visitor history.
+- Filter by date.
+- Identify visitors currently inside the hostel.
+
+Only authorized staff may manage visitor records.
+
+Treat visitor contact information as private data. Do not expose the entire visitor register to students.
+
+---
+
+# 17. MAINTENANCE MANAGEMENT
+
+Create a maintenance task module.
+
+Features:
+- Create task.
+- Link task to room or hostel area.
+- Select category.
+- Assign staff.
+- Set priority.
+- Add description.
+- Update progress.
+- Record completion notes.
+
+Statuses:
+- Pending
+- Assigned
+- In Progress
+- Completed
+- Cancelled
+
+Track creation time, assigned staff member, and completion time.
+
+Allow students to report maintenance issues through the complaint system or an authorized maintenance request form.
+
+Use the same underlying task record where practical to avoid duplicate records for the same problem.
+
+---
+
+# 18. NOTICES AND ANNOUNCEMENTS
+
+Features:
+- Create announcement.
+- Edit announcement.
+- Publish or unpublish.
+- Set target audience.
+- Add publication and expiry dates.
+- Categorize the announcement.
+- Display unread status where implemented.
+
+Categories:
+- General
+- Fees
+- Holiday
+- Maintenance
+- Mess
+- Emergency
+
+Support targeting:
+- All residents
+- Students
+- Staff
+- Selected hostel or building, if configured
+
+Students must only see announcements they are permitted to view.
+
+Emergency announcements should be visually distinguishable without redesigning the entire interface.
+
+---
+
+# 19. REPORTS AND EXPORTS
+
+Create an administrator reporting page with filters.
+
+Reports:
+- Student registration.
+- Room occupancy.
+- Available beds.
+- Fee collection.
+- Outstanding fees.
+- Daily and monthly attendance.
+- Leave requests.
+- Complaint status.
+- Maintenance tasks.
+- Visitor records.
+
+Support CSV downloads and printable report views.
+
+For PDFs, use a compatible PDF-generation approach or a print stylesheet.
+
+Do not create an export button that merely downloads an unrelated placeholder file.
+
+Apply authorization before generating reports. Exports must not bypass database access rules.
+
+---
+
+# 20. DATABASE DESIGN
+
+Create a proper PostgreSQL schema.
+
+Suggested tables:
+
+1. `profiles`
+   - id
+   - full_name
+   - email
+   - phone
+   - role
+   - account_status
+   - created_at
+   - updated_at
+
+2. `students`
+   - id
+   - profile_id
+   - student_code
+   - department
+   - academic_year
+   - guardian_name
+   - guardian_phone
+   - emergency_contact
+   - created_at
+
+3. `rooms`
+   - id
+   - building
+   - floor
+   - room_number
+   - capacity
+   - room_type
+   - is_active
+   - created_at
+
+4. `room_allocations`
+   - id
+   - student_id
+   - room_id
+   - bed_identifier
+   - allocated_at
+   - released_at
+   - allocation_status
+   - allocated_by
+
+5. `fee_charges`
+   - id
+   - student_id
+   - category
+   - amount
+   - due_date
+   - description
+   - created_at
+
+6. `payments`
+   - id
+   - student_id
+   - fee_charge_id
+   - amount
+   - payment_method
+   - transaction_reference
+   - payment_status
+   - recorded_by
+   - recorded_at
+
+7. `attendance`
+   - id
+   - student_id
+   - attendance_date
+   - status
+   - recorded_by
+   - created_at
+
+8. `leave_requests`
+   - id
+   - student_id
+   - start_date
+   - end_date
+   - reason
+   - status
+   - reviewed_by
+   - reviewed_at
+   - rejection_reason
+   - created_at
+
+9. `complaints`
+   - id
+   - student_id
+   - title
+   - category
+   - description
+   - location
+   - priority
+   - status
+   - assigned_to
+   - created_at
+   - updated_at
+   - resolved_at
+
+10. `complaint_updates`
+    - id
+    - complaint_id
+    - updated_by
+    - status
+    - message
+    - is_internal
+    - created_at
+
+11. `mess_menus`
+    - id
+    - menu_date
+    - meal_type
+    - menu_description
+    - published_by
+    - is_published
+
+12. `food_feedback`
+    - id
+    - student_id
+    - menu_id
+    - rating
+    - comments
+    - created_at
+
+13. `visitors`
+    - id
+    - visitor_name
+    - visitor_phone
+    - relationship
+    - student_id
+    - purpose
+    - entry_time
+    - exit_time
+    - recorded_by
+
+14. `maintenance_tasks`
+    - id
+    - title
+    - description
+    - category
+    - location
+    - priority
+    - status
+    - assigned_to
+    - created_by
+    - created_at
+    - completed_at
+
+15. `notices`
+    - id
+    - title
+    - body
+    - category
+    - target_audience
+    - published_at
+    - expires_at
+    - created_by
+    - is_published
+
+16. `notifications`
+    - id
+    - recipient_id
+    - title
+    - message
+    - notification_type
+    - read_at
+    - created_at
+
+17. `audit_logs`
+    - id
+    - actor_id
+    - action
+    - entity_type
+    - entity_id
+    - metadata
+    - created_at
+
+Use UUID primary keys where appropriate, foreign keys, indexes, timestamps, unique constraints, and sensible delete behavior.
+
+Use database views or secure server-side queries for calculated dashboard summaries.
+
+Avoid storing duplicated values that can be calculated reliably from source records.
+
+The exact schema can be refined where required by PostgreSQL or Supabase, but preserve the intended relationships and functionality.
+
+---
+
+# 21. SECURITY AND AUTHORIZATION
+
+Security is a core requirement, not an optional finishing touch.
+
+Implement:
+- Supabase authentication.
+- Database Row Level Security.
+- Role-based authorization.
+- Protected frontend routes.
+- Server/database-side permission checks.
+- Form validation.
+- Safe file upload rules.
+- Secure session handling.
+- Least-privilege data access.
+- Audit logs for sensitive administrative operations.
+
+Role definitions:
+- `admin`
+- `warden`
+- `student`
+- `staff`
+
+Permissions:
+
+ADMIN:
+- Full authorized system administration.
+- Manage users and role assignments through trusted workflows.
+- Manage hostel configuration and reports.
+
+WARDEN:
+- Manage students, rooms, allocations, leave requests, complaints, notices, and hostel operations according to assigned permissions.
+
+STUDENT:
+- View and update permitted personal profile fields.
+- View own room allocation, fees, attendance, and leave history.
+- Submit leave requests and complaints.
+- Read published notices and mess menus.
+- Submit feedback.
+
+STAFF:
+- Access assigned attendance, visitor, maintenance, mess, or complaint functions according to their assigned permissions.
+
+Important security rules:
+- Never rely on hiding a button as the only permission check.
+- Never trust a role supplied by the client.
+- Never allow a student to query every student's private information.
+- Prevent users from changing protected role fields.
+- Restrict access to payments, guardian contacts, visitor records, and internal complaint notes.
+- Ensure a student cannot approve their own leave request or modify their own payment history.
+- Prevent unauthenticated access to private database records.
+- Add RLS policies for every table that contains protected information.
+- Use secure database functions or transactional backend operations for sensitive multi-step actions.
+- Do not expose service-role keys.
+- Do not log passwords, access tokens, or sensitive personal information.
+
+If a permission cannot be implemented safely with the chosen frontend-only approach, redesign that operation to use an appropriately secured database function or server-side workflow.
+
+---
+
+# 22. RESPONSIVE DESIGN
+
+The application must work at:
+- 1440px desktop.
+- 1280px laptop.
+- 1024px tablet landscape.
+- 768px tablet.
+- 390px mobile.
+- 360px small mobile.
+
+Desktop:
+- Sidebar and main content side by side.
+- Multi-column KPI cards.
+- Data tables with readable columns.
+
+Tablet:
+- Collapsible sidebar.
+- Two-column cards when practical.
+- Horizontally scrollable tables where appropriate.
+
+Mobile:
+- Drawer navigation.
+- Single-column forms.
+- Stacked dashboard cards.
+- Touch-friendly buttons.
+- No horizontal page overflow.
+- Important actions remain visible.
+- Tables can use compact responsive layouts or controlled horizontal scrolling.
+
+Never shrink desktop tables until the text becomes unreadable.
+
+---
+
+# 23. MICRO-INTERACTIONS AND USER EXPERIENCE
+
+Implement:
+- Subtle hover transitions.
+- Clear focus states.
+- Loading spinners or skeletons.
+- Toast notifications for completed operations.
+- Confirmation dialogs for destructive actions.
+- Inline validation errors.
+- Empty states.
+- Error recovery.
+- Accessible labels.
+- Keyboard navigation.
+- Useful tooltips for icon-only actions.
+
+Keep animation minimal and functional.
+
+Avoid:
+- Excessive motion.
+- Animated backgrounds.
+- Floating decorative blobs.
+- Repeated entrance animations.
+- Giant emoji illustrations.
+- Excessive rounded pills.
+- Unnecessary gradients.
+
+The application should feel fast, calm, reliable, and operational.
+
+---
+
+# 24. DEMO DATA AND INITIAL EXPERIENCE
+
+Provide realistic demo data for development.
+
+Example students:
+- Ananya Rao
+- Kiran Kumar
+- Priya Sharma
+- Arjun Reddy
+- Meera Nair
+
+Example rooms:
+- A-101
+- A-102
+- A-103
+- B-201
+- B-202
+
+Include:
+- Multiple room capacities.
+- Occupied and available beds.
+- Paid, partially paid, and pending fees.
+- Present and absent attendance records.
+- Pending and approved leave requests.
+- Complaints in different statuses.
+- Maintenance tasks.
+- Published notices.
+- Weekly mess menus.
+
+Ensure the data is internally consistent.
+
+For example:
+- Available beds must match room capacity minus active allocations.
+- Outstanding fees must match charges minus confirmed payments.
+- Dashboard totals must match the displayed records.
+- Attendance charts must match stored attendance.
+- A completed complaint must not appear as unresolved.
+
+Use deterministic seed data rather than generating random data on each refresh.
+
+Do not insert fabricated records into a real production database automatically.
+
+Clearly distinguish demo data from actual institutional records.
+
+---
+
+# 25. PROJECT STRUCTURE
+
+Organize the application into reusable modules.
+
+Suggested structure:
+
+src/
+  app/
+    App.tsx
+    router.tsx
+    providers/
+  components/
+    ui/
+    layout/
+    forms/
+    tables/
+    charts/
+    feedback/
+  pages/
+    LandingPage.tsx
+    LoginPage.tsx
+    RegisterPage.tsx
+    ForgotPasswordPage.tsx
+    DashboardPage.tsx
+    StudentsPage.tsx
+    RoomsPage.tsx
+    FeesPage.tsx
+    AttendancePage.tsx
+    LeavesPage.tsx
+    ComplaintsPage.tsx
+    MessPage.tsx
+    VisitorsPage.tsx
+    MaintenancePage.tsx
+    NoticesPage.tsx
+    ReportsPage.tsx
+    ProfilePage.tsx
+    SettingsPage.tsx
+  features/
+    auth/
+    students/
+    rooms/
+    fees/
+    attendance/
+    leaves/
+    complaints/
+    mess/
+    visitors/
+    maintenance/
+    notices/
+    reports/
+  hooks/
+  lib/
+    supabase.ts
+    permissions.ts
+    validation.ts
+    formatters.ts
+  services/
+  types/
+  styles/
+  main.tsx
+
+supabase/
+  migrations/
+  seed.sql
+
+Also include:
+- `package.json`
+- `vite.config.ts`
+- `tsconfig.json`
+- `.env.example`
+- `README.md`
+
+You may adjust the structure if the resulting code is cleaner, but keep modules separated by responsibility.
+
+Avoid creating one enormous React component containing the entire application.
+
+---
+
+# 26. IMPLEMENTATION PROCESS
+
+Build the project in logical phases, but continue until the complete implementation is ready.
+
+PHASE 1: FOUNDATION
+- Inspect the available project files before changing anything.
+- Configure dependencies.
+- Establish routing.
+- Define the design tokens.
+- Build the shared layout and responsive navigation.
+
+PHASE 2: PUBLIC PAGES
+- Implement the landing page.
+- Implement login.
+- Implement student registration.
+- Implement password recovery and reset flows.
+
+PHASE 3: AUTHENTICATION
+- Configure Supabase.
+- Implement session persistence.
+- Fetch trusted user roles.
+- Protect authenticated routes.
+- Implement role-based navigation.
+
+PHASE 4: DASHBOARD
+- Build the dashboard shell.
+- Create KPI cards.
+- Add charts and activity tables.
+- Connect summaries to real database queries.
+
+PHASE 5: FUNCTIONAL MODULES
+- Students.
+- Rooms and allocations.
+- Fees and payments.
+- Attendance.
+- Leave requests.
+- Complaints.
+- Mess.
+- Visitors.
+- Maintenance.
+- Notices.
+- Reports.
+
+PHASE 6: SECURITY
+- Add migrations.
+- Add RLS policies.
+- Add server-side or database-level permission checks.
+- Validate sensitive operations.
+- Test unauthorized access.
+
+PHASE 7: QUALITY ASSURANCE
+- Test navigation.
+- Test forms.
+- Test authentication.
+- Test role restrictions.
+- Test CRUD operations.
+- Test calculations.
+- Test mobile layouts.
+- Test production build.
+
+Do not stop after producing the landing page or dashboard mockup.
+
+---
+
+# 27. TESTING CHECKLIST
+
+Before declaring the project complete, verify:
+
+1. The landing page loads without errors.
+2. All navigation links work.
+3. The login page validates input.
+4. Incorrect credentials produce a meaningful error.
+5. Student registration works when the backend is configured.
+6. A new public registration cannot create an administrator.
+7. Protected routes redirect unauthenticated users.
+8. Student accounts cannot access administrator-only modules.
+9. The room allocation process prevents overbooking.
+10. Fee totals and outstanding balances are calculated correctly.
+11. Attendance filters work.
+12. Students cannot approve their own leave requests.
+13. Complaint status changes persist.
+14. Staff permissions are enforced.
+15. Database records persist after refresh.
+16. Search and filtering return the correct records.
+17. CSV exports contain the filtered data.
+18. No important buttons are decorative.
+19. There are no missing imports or broken image paths.
+20. The project builds successfully for production.
+21. There is no horizontal overflow on mobile.
+22. Database access is protected by RLS.
+23. The console contains no avoidable runtime errors.
+24. Demo mode and production mode are clearly distinguished.
+
+Do not claim these tests passed unless they were actually run.
+
+---
+
+# 28. FINAL VISUAL QUALITY REQUIREMENTS
+
+The final result must follow these visual priorities:
+
+1. Match the muted grey, white, and navy reference palette.
+2. Keep the sidebar compact and professional.
+3. Use white panels with thin borders.
+4. Keep dashboard cards restrained and data-focused.
+5. Use clean tables and practical charts.
+6. Keep headings and spacing consistent.
+7. Use Lucide icons rather than emoji.
+8. Make authentication pages consistent with the dashboard.
+9. Give the landing page a polished but restrained marketing design.
+10. Maintain a unified design language across all roles and routes.
+
+Avoid copying the reference dashboard's exact text or branding. Reproduce its visual principles while creating a distinct HostelEase interface.
+
+Do not use generic AI marketing phrases such as "Revolutionize your journey," "Unlock the power of," or "Experience the future."
+
+Use natural, specific product copy.
+
+Do not add fake testimonials, fake user counts, fake reviews, or fake integrations.
+
+The final application should look like a credible hostel-management product that could be presented to a college administrator.
+
+---
+
+# 29. FINAL DELIVERABLES
+
+Deliver a working application containing:
+
+- Complete landing page.
+- Login and student registration.
+- Password recovery.
+- Protected dashboard.
+- Role-based access.
+- All listed hostel-management modules.
+- Responsive grey/navy design system.
+- Supabase integration.
+- Database schema and migrations.
+- RLS policies.
+- Seed data for development.
+- `.env.example`.
+- README with installation and setup instructions.
+- Deployment instructions for Vercel and Supabase.
+- Production build and a summary of any remaining configuration steps.
+
+Start by inspecting the current project and its dependencies. Preserve existing working code where appropriate. Then implement the application in the existing project rather than generating disconnected code snippets.
+
+Prioritize a functional, coherent, secure application over unnecessary visual effects.
+
+The final product should feel like a real software product: quiet, precise, consistent, practical, and easy to use.
