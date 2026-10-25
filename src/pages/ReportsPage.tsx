@@ -43,27 +43,27 @@ export const ReportsPage: React.FC = () => {
     if (type === 'students') {
       const headers = ['Student ID', 'Full Name', 'Department', 'Year', 'Room', 'Fee Status'];
       const rows = students.map((s) => [s.student_code, s.full_name, s.department, s.academic_year, s.room_number || 'None', s.fee_status]);
-      dataStore.exportToCSV('hostelease_student_directory_report', headers, rows);
+      dataStore.exportToCSV('staynest_student_directory_report', headers, rows);
     } else if (type === 'occupancy') {
       const headers = ['Room Number', 'Building', 'Floor', 'Capacity', 'Occupied', 'Available', 'Type'];
       const rows = rooms.map((r) => [r.room_number, r.building, r.floor, r.capacity, r.occupied_beds, r.available_beds, r.room_type]);
-      dataStore.exportToCSV('hostelease_occupancy_report', headers, rows);
+      dataStore.exportToCSV('staynest_occupancy_report', headers, rows);
     } else if (type === 'fees') {
       const headers = ['Receipt No', 'Student', 'Category', 'Amount (INR)', 'Method', 'Date', 'Status'];
       const rows = payments.map((p) => [p.receipt_number, p.student_name, p.fee_category, p.amount, p.payment_method, p.recorded_at, p.payment_status]);
-      dataStore.exportToCSV('hostelease_fee_collections_report', headers, rows);
+      dataStore.exportToCSV('staynest_fee_collections_report', headers, rows);
     } else if (type === 'attendance') {
       const headers = ['Date', 'Student', 'Room', 'Status', 'Logged By'];
       const rows = attendance.map((a) => [a.attendance_date, a.student_name, a.room_number, a.status, a.recorded_by]);
-      dataStore.exportToCSV('hostelease_attendance_audit_report', headers, rows);
+      dataStore.exportToCSV('staynest_attendance_audit_report', headers, rows);
     } else if (type === 'leaves') {
       const headers = ['ID', 'Student', 'Dates', 'Reason', 'Destination', 'Status', 'Reviewer'];
       const rows = leaves.map((l) => [l.id, l.student_name, `${l.start_date} to ${l.end_date}`, l.reason, l.destination, l.status, l.reviewed_by || 'Pending']);
-      dataStore.exportToCSV('hostelease_leave_records_report', headers, rows);
+      dataStore.exportToCSV('staynest_leave_records_report', headers, rows);
     } else if (type === 'maintenance') {
       const headers = ['Task ID', 'Title', 'Category', 'Location', 'Priority', 'Status', 'Cost (INR)', 'Assigned Staff'];
       const rows = maintenance.map((m) => [m.id, m.title, m.category, m.location, m.priority, m.status, m.cost || 0, m.assigned_to || 'None']);
-      dataStore.exportToCSV('hostelease_maintenance_audit_report', headers, rows);
+      dataStore.exportToCSV('staynest_maintenance_audit_report', headers, rows);
     }
   };
 
@@ -126,7 +126,7 @@ export const ReportsPage: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b border-[#D6DCE0]">
           <div>
             <span className="text-[10px] font-bold text-[#727A84] uppercase tracking-wider">
-              HostelEase Official Audit Report
+              staynest Official Audit Report
             </span>
             <h3 className="font-bold text-base text-[#0C1629] capitalize mt-0.5">
               {reportType.replace('-', ' ')} Summary Ledger

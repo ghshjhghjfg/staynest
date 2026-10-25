@@ -32,25 +32,30 @@ import {
 } from './seedData';
 
 const STORAGE_KEYS = {
-  STUDENTS: 'hostelease_students_v1',
-  ROOMS: 'hostelease_rooms_v1',
-  ALLOCATIONS: 'hostelease_allocations_v1',
-  FEE_CHARGES: 'hostelease_fee_charges_v1',
-  PAYMENTS: 'hostelease_payments_v1',
-  ATTENDANCE: 'hostelease_attendance_v1',
-  LEAVES: 'hostelease_leaves_v1',
-  COMPLAINTS: 'hostelease_complaints_v1',
-  MESS_MENUS: 'hostelease_mess_menus_v1',
-  FOOD_FEEDBACK: 'hostelease_food_feedback_v1',
-  VISITORS: 'hostelease_visitors_v1',
-  MAINTENANCE: 'hostelease_maintenance_v1',
-  NOTICES: 'hostelease_notices_v1',
-  NOTIFICATIONS: 'hostelease_notifications_v1',
+  STUDENTS: 'staynest_students_v1',
+  ROOMS: 'staynest_rooms_v1',
+  ALLOCATIONS: 'staynest_allocations_v1',
+  FEE_CHARGES: 'staynest_fee_charges_v1',
+  PAYMENTS: 'staynest_payments_v1',
+  ATTENDANCE: 'staynest_attendance_v1',
+  LEAVES: 'staynest_leaves_v1',
+  COMPLAINTS: 'staynest_complaints_v1',
+  MESS_MENUS: 'staynest_mess_menus_v1',
+  FOOD_FEEDBACK: 'staynest_food_feedback_v1',
+  VISITORS: 'staynest_visitors_v1',
+  MAINTENANCE: 'staynest_maintenance_v1',
+  NOTICES: 'staynest_notices_v1',
+  NOTIFICATIONS: 'staynest_notifications_v1',
 };
 
 function getStorage<T>(key: string, defaultValue: T): T {
   try {
-    const raw = localStorage.getItem(key);
+    let raw = localStorage.getItem(key);
+    if (!raw) {
+      // Check legacy key if exists
+      const legacyKey = key.replace('staynest_', 'hostelease_');
+      raw = localStorage.getItem(legacyKey);
+    }
     if (!raw) {
       localStorage.setItem(key, JSON.stringify(defaultValue));
       return defaultValue;
@@ -64,7 +69,7 @@ function getStorage<T>(key: string, defaultValue: T): T {
 function setStorage<T>(key: string, value: T): void {
   try {
     localStorage.setItem(key, JSON.stringify(value));
-    window.dispatchEvent(new Event('hostelease_store_updated'));
+    window.dispatchEvent(new Event('staynest_store_updated'));
   } catch (err) {
     console.error('Storage write error:', err);
   }

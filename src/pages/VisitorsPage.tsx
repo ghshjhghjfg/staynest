@@ -41,8 +41,8 @@ export const VisitorsPage: React.FC = () => {
 
   useEffect(() => {
     loadData();
-    window.addEventListener('hostelease_store_updated', loadData);
-    return () => window.removeEventListener('hostelease_store_updated', loadData);
+    window.addEventListener('staynest_store_updated', loadData);
+    return () => window.removeEventListener('staynest_store_updated', loadData);
   }, []);
 
   const handleCreateEntry = (e: React.FormEvent) => {
@@ -95,7 +95,7 @@ export const VisitorsPage: React.FC = () => {
       v.status,
       v.recorded_by,
     ]);
-    dataStore.exportToCSV('hostelease_visitors_register', headers, rows);
+    dataStore.exportToCSV('staynest_visitors_register', headers, rows);
   };
 
   const activeVisitorsInside = visitors.filter((v) => v.status === 'Inside');

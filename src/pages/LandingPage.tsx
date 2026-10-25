@@ -98,7 +98,7 @@ export const LandingPage: React.FC = () => {
               <Building2 className="w-5 h-5 text-white" />
             </div>
             <div>
-              <span className="text-lg font-bold tracking-tight text-[#0C1629]">HostelEase</span>
+              <span className="text-lg font-bold tracking-tight text-[#0C1629]">staynest</span>
             </div>
           </Link>
 
@@ -227,7 +227,7 @@ export const LandingPage: React.FC = () => {
                     <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
                     <div className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
                   </div>
-                  <span className="text-[11px] font-medium text-[#0C1629]/70">hostelease.edu/dashboard</span>
+                  <span className="text-[11px] font-medium text-[#0C1629]/70">staynest.edu/dashboard</span>
                   <div className="w-6" />
                 </div>
 
@@ -236,8 +236,8 @@ export const LandingPage: React.FC = () => {
                   {/* Mock Nav Bar */}
                   <div className="bg-[#0C1629] px-3 py-2 flex items-center justify-between text-white">
                     <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded bg-[#356B9A] flex items-center justify-center font-bold text-[10px]">HE</div>
-                      <span className="font-semibold text-xs">HostelEase System</span>
+                      <div className="w-5 h-5 rounded bg-[#356B9A] flex items-center justify-center font-bold text-[10px]">SN</div>
+                      <span className="font-semibold text-xs">staynest System</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="px-1.5 py-0.5 rounded bg-[#287A52] text-[9px] font-semibold">ACTIVE</span>
@@ -383,7 +383,7 @@ export const LandingPage: React.FC = () => {
           <div className="max-w-2xl mb-12">
             <span className="text-xs font-semibold text-[#356B9A] uppercase tracking-wider">Workflow</span>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#0C1629] mt-1">
-              How HostelEase works
+              How staynest works
             </h2>
             <p className="mt-2 text-sm text-[#727A84]">
               A straightforward progression from student admission to daily campus welfare.
@@ -543,7 +543,7 @@ export const LandingPage: React.FC = () => {
               <div className="w-7 h-7 rounded bg-[#0C1629] flex items-center justify-center text-white font-bold">
                 <Building2 className="w-4 h-4 text-white" />
               </div>
-              <span className="font-bold text-[#0C1629] text-sm">HostelEase</span>
+              <span className="font-bold text-[#0C1629] text-sm">staynest</span>
               <span className="text-[#D6DCE0]">|</span>
               <span>Hostel Administration and Student Welfare Management</span>
             </div>
@@ -557,7 +557,7 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
           <div className="mt-6 pt-6 border-t border-[#D6DCE0] text-center text-[11px] text-[#727A84]">
-            © {new Date().getFullYear()} HostelEase Systems. Designed for institutional efficiency and student welfare.
+            © {new Date().getFullYear()} staynest Systems. Designed for institutional efficiency and student welfare.
           </div>
         </div>
       </footer>

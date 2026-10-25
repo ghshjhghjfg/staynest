@@ -44,8 +44,8 @@ export const DashboardPage: React.FC = () => {
   // Subscribe to local store updates
   useEffect(() => {
     const handleUpdate = () => setRefreshKey((k) => k + 1);
-    window.addEventListener('hostelease_store_updated', handleUpdate);
-    return () => window.removeEventListener('hostelease_store_updated', handleUpdate);
+    window.addEventListener('staynest_store_updated', handleUpdate);
+    return () => window.removeEventListener('staynest_store_updated', handleUpdate);
   }, []);
 
   const students = dataStore.getStudents();

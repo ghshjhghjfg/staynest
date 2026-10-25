@@ -1,6 +1,6 @@
 {
-  "name": "HostelEase",
-  "description": "Smart Hostel Administration and Student Welfare Management Platform. Manage rooms, student allocations, fee payments, attendance, leaves, complaints, visitors, mess menus, and maintenance.",
+  "name": "staynest",
+  "description": "staynest - Smart Hostel Administration and Student Welfare Management Platform. Manage rooms, student allocations, fee payments, attendance, leaves, complaints, visitors, mess menus, and maintenance.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

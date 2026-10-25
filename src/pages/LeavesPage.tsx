@@ -46,8 +46,8 @@ export const LeavesPage: React.FC = () => {
 
   useEffect(() => {
     loadData();
-    window.addEventListener('hostelease_store_updated', loadData);
-    return () => window.removeEventListener('hostelease_store_updated', loadData);
+    window.addEventListener('staynest_store_updated', loadData);
+    return () => window.removeEventListener('staynest_store_updated', loadData);
   }, []);
 
   const handleApplyLeave = (e: React.FormEvent) => {
@@ -119,7 +119,7 @@ export const LeavesPage: React.FC = () => {
       l.status,
       l.reviewed_by || 'Pending',
     ]);
-    dataStore.exportToCSV('hostelease_leave_requests', headers, rows);
+    dataStore.exportToCSV('staynest_leave_requests', headers, rows);
   };
 
   const filteredLeaves = leaves.filter((l) => {

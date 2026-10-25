@@ -30,8 +30,8 @@ export const AttendancePage: React.FC = () => {
 
   useEffect(() => {
     loadData();
-    window.addEventListener('hostelease_store_updated', loadData);
-    return () => window.removeEventListener('hostelease_store_updated', loadData);
+    window.addEventListener('staynest_store_updated', loadData);
+    return () => window.removeEventListener('staynest_store_updated', loadData);
   }, []);
 
   // Filter attendance for chosen date
@@ -87,7 +87,7 @@ export const AttendancePage: React.FC = () => {
         record ? record.recorded_by : '—',
       ];
     });
-    dataStore.exportToCSV(`hostelease_attendance_${selectedDate}`, headers, rows);
+    dataStore.exportToCSV(`staynest_attendance_${selectedDate}`, headers, rows);
   };
 
   const filteredStudents = students.filter((s) => {

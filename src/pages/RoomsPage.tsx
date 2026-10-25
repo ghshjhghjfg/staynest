@@ -60,8 +60,8 @@ export const RoomsPage: React.FC = () => {
 
   useEffect(() => {
     loadData();
-    window.addEventListener('hostelease_store_updated', loadData);
-    return () => window.removeEventListener('hostelease_store_updated', loadData);
+    window.addEventListener('staynest_store_updated', loadData);
+    return () => window.removeEventListener('staynest_store_updated', loadData);
   }, []);
 
   const filteredRooms = rooms.filter((r) => {
@@ -151,7 +151,7 @@ export const RoomsPage: React.FC = () => {
       r.room_type,
       r.is_active ? 'Active' : 'Maintenance',
     ]);
-    dataStore.exportToCSV('hostelease_room_occupancy', headers, rows);
+    dataStore.exportToCSV('staynest_room_occupancy', headers, rows);
   };
 
   const activeAllocations = allocations.filter((a) => a.allocation_status === 'active');

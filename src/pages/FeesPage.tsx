@@ -59,8 +59,8 @@ export const FeesPage: React.FC = () => {
 
   useEffect(() => {
     loadData();
-    window.addEventListener('hostelease_store_updated', loadData);
-    return () => window.removeEventListener('hostelease_store_updated', loadData);
+    window.addEventListener('staynest_store_updated', loadData);
+    return () => window.removeEventListener('staynest_store_updated', loadData);
   }, []);
 
   // Aggregates
@@ -141,7 +141,7 @@ export const FeesPage: React.FC = () => {
       p.payment_status,
       p.recorded_at,
     ]);
-    dataStore.exportToCSV('hostelease_fee_payments_report', headers, rows);
+    dataStore.exportToCSV('staynest_fee_payments_report', headers, rows);
   };
 
   const handlePrintReceipt = () => {
@@ -517,7 +517,7 @@ export const FeesPage: React.FC = () => {
             <div className="flex items-center justify-between pb-3 border-b border-[#D6DCE0] no-print">
               <div className="flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-[#0C1629]" />
-                <h3 className="font-bold text-sm text-[#0C1629]">HostelEase Payment Voucher</h3>
+                <h3 className="font-bold text-sm text-[#0C1629]">staynest Payment Voucher</h3>
               </div>
               <button onClick={() => setSelectedReceipt(null)} className="text-[#727A84] hover:text-[#0C1629]">
                 <X className="w-5 h-5" />

@@ -48,8 +48,8 @@ export const MaintenancePage: React.FC = () => {
 
   useEffect(() => {
     loadData();
-    window.addEventListener('hostelease_store_updated', loadData);
-    return () => window.removeEventListener('hostelease_store_updated', loadData);
+    window.addEventListener('staynest_store_updated', loadData);
+    return () => window.removeEventListener('staynest_store_updated', loadData);
   }, []);
 
   const handleCreateTask = (e: React.FormEvent) => {
@@ -109,7 +109,7 @@ export const MaintenancePage: React.FC = () => {
       t.cost || 0,
       t.created_at,
     ]);
-    dataStore.exportToCSV('hostelease_maintenance_tasks', headers, rows);
+    dataStore.exportToCSV('staynest_maintenance_tasks', headers, rows);
   };
 
   const filteredTasks = tasks.filter((t) => {

@@ -50,8 +50,8 @@ export const ComplaintsPage: React.FC = () => {
 
   useEffect(() => {
     loadData();
-    window.addEventListener('hostelease_store_updated', loadData);
-    return () => window.removeEventListener('hostelease_store_updated', loadData);
+    window.addEventListener('staynest_store_updated', loadData);
+    return () => window.removeEventListener('staynest_store_updated', loadData);
   }, []);
 
   const handleSubmitComplaint = (e: React.FormEvent) => {
@@ -111,7 +111,7 @@ export const ComplaintsPage: React.FC = () => {
       c.assigned_to || 'Unassigned',
       c.created_at,
     ]);
-    dataStore.exportToCSV('hostelease_complaints_log', headers, rows);
+    dataStore.exportToCSV('staynest_complaints_log', headers, rows);
   };
 
   const filteredComplaints = complaints.filter((c) => {

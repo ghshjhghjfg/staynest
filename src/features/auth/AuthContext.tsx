@@ -3,6 +3,7 @@ import { UserProfile, UserRole, StudentRecord } from '../../types';
 import { SEED_PROFILES } from '../../services/seedData';
 import { dataStore } from '../../services/dataStore';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
+import { useToast } from '../../components/ui/Toast';
 
 interface AuthContextType {
   currentUser: UserProfile | null;
@@ -30,14 +31,16 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const AUTH_STORAGE_KEY = 'hostelease_current_user_v1';
+const AUTH_STORAGE_KEY = 'staynest_current_user_v1';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { showToast } = useToast();
+
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
     try {
       const saved = localStorage.getItem(AUTH_STORAGE_KEY);
       if (saved) return JSON.parse(saved);
-      // Default to administrator in demo mode so evaluator can explore immediately
+      // Default to administrator in demo mode
       return SEED_PROFILES[0];
     } catch {
       return SEED_PROFILES[0];
@@ -78,7 +81,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return { success: false, error: error.message };
         }
         if (data.user) {
-          // Fetch profile from DB
           const { data: profile } = await supabase
             .from('profiles')
             .select('*')
@@ -86,7 +88,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             .single();
 
           if (profile) {
-            setCurrentUser(profile as UserProfile);
+            const userProfile = profile as UserProfile;
+            setCurrentUser(userProfile);
+            showToast(`Signed in successfully! Welcome back, ${userProfile.full_name}.`, 'success');
             return { success: true };
           }
         }
@@ -99,6 +103,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const seedUser = SEED_PROFILES.find((p) => p.email.toLowerCase() === email.toLowerCase());
     if (seedUser) {
       setCurrentUser(seedUser);
+      showToast(`Signed in successfully! Welcome, ${seedUser.full_name} (${seedUser.role.toUpperCase()}).`, 'success');
       return { success: true };
     }
 
@@ -118,6 +123,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       setCurrentUser(studentProfile);
       setCurrentStudent(student);
+      showToast(`Signed in successfully! Welcome back, ${student.full_name}.`, 'success');
       return { success: true };
     }
 
@@ -168,7 +174,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email: data.email.trim().toLowerCase(),
       phone: data.phone.trim(),
       department: data.department,
-      academicYear: data.academicYear,
+      academic_year: data.academicYear,
       gender: data.gender || 'Male',
       guardian_name: data.guardianName.trim(),
       guardian_phone: data.guardianPhone.trim(),
@@ -192,6 +198,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     setCurrentUser(studentProfile);
     setCurrentStudent(newStudent);
+    showToast(`Account registered successfully! Welcome to staynest, ${data.fullName}.`, 'success');
 
     return { success: true };
   };
@@ -203,6 +210,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCurrentUser(null);
     setCurrentStudent(null);
     localStorage.removeItem(AUTH_STORAGE_KEY);
+    showToast('You have been logged out successfully.', 'info');
   };
 
   const switchDemoRole = (targetRole: UserRole) => {
@@ -215,6 +223,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         setCurrentStudent(null);
       }
+      showToast(`Switched persona to ${targetRole.toUpperCase()}: ${profile.full_name}`, 'info');
     }
   };
 

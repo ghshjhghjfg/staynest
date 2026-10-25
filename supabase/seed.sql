@@ -1,5 +1,5 @@
 -- ====================================================================
--- HostelEase: Deterministic Seed Data for PostgreSQL
+-- staynest: Deterministic Seed Data for PostgreSQL
 -- ====================================================================
 
 -- Seed Rooms

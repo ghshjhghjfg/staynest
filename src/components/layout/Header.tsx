@@ -65,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobile }) => {
             {getBreadcrumbTitle()}
           </h1>
           <p className="hidden sm:block text-xs text-[#727A84]">
-            HostelEase • Automated Resident & Facility Management
+            staynest • Automated Resident & Facility Management
           </p>
         </div>
       </div>

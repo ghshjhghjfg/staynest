@@ -25,7 +25,7 @@ export const ForgotPasswordPage: React.FC = () => {
             <div className="w-10 h-10 rounded-lg bg-[#0C1629] flex items-center justify-center text-white">
               <Building2 className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-[#0C1629]">HostelEase</span>
+            <span className="text-xl font-bold tracking-tight text-[#0C1629]">staynest</span>
           </Link>
         </div>
         <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-[#0C1629]">

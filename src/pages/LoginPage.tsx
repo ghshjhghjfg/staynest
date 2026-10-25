@@ -56,7 +56,7 @@ export const LoginPage: React.FC = () => {
             <div className="w-10 h-10 rounded-lg bg-[#0C1629] flex items-center justify-center text-white">
               <Building2 className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-[#0C1629]">HostelEase</span>
+            <span className="text-xl font-bold tracking-tight text-[#0C1629]">staynest</span>
           </Link>
         </div>
         <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-[#0C1629]">
@@ -86,7 +86,7 @@ export const LoginPage: React.FC = () => {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="e.g. admin@hostelease.edu"
+                placeholder="e.g. admin@staynest.edu"
                 className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629] focus:ring-1 focus:ring-[#0C1629] transition-colors"
               />
             </div>

@@ -69,7 +69,7 @@ export const SettingsPage: React.FC = () => {
 
         <div className="text-xs text-[#727A84] space-y-2 leading-relaxed">
           <p>
-            HostelEase runs out-of-the-box in <strong>Full Interactive Demo Mode</strong> with deterministic seed data and reactive LocalStorage persistence.
+            staynest runs out-of-the-box in <strong>Full Interactive Demo Mode</strong> with deterministic seed data and reactive LocalStorage persistence.
           </p>
           <p>
             To connect to your own Supabase project in production, populate the following environment variables in your deployment environment:

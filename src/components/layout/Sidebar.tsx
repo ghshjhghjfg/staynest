@@ -17,7 +17,6 @@ import {
   LogOut,
   Building2,
   X,
-  ShieldAlert,
 } from 'lucide-react';
 import { useAuth } from '../../features/auth/AuthContext';
 import { canAccessModule } from '../../lib/permissions';
@@ -51,7 +50,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/'); // Redirect to landing page as requested
   };
 
   const getRoleBadgeStyle = (r: string) => {
@@ -76,7 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             <Building2 className="w-5 h-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-base font-bold tracking-tight text-white leading-tight">HostelEase</span>
+            <span className="text-base font-bold tracking-tight text-white leading-tight">staynest</span>
             <span className="text-[10px] text-[#B5C1C8] font-medium tracking-wide uppercase">Welfare & Ops</span>
           </div>
         </NavLink>
@@ -148,8 +147,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
           </div>
           <button
             onClick={handleLogout}
-            title="Sign Out"
-            className="p-1.5 rounded text-[#B5C1C8] hover:text-red-400 hover:bg-[#1A2942] transition-colors shrink-0"
+            title="Sign Out to Landing Page"
+            className="p-1.5 rounded text-[#B5C1C8] hover:text-red-400 hover:bg-[#1A2942] transition-colors shrink-0 cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
           </button>

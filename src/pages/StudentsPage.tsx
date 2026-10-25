@@ -54,8 +54,8 @@ export const StudentsPage: React.FC = () => {
 
   useEffect(() => {
     loadData();
-    window.addEventListener('hostelease_store_updated', loadData);
-    return () => window.removeEventListener('hostelease_store_updated', loadData);
+    window.addEventListener('staynest_store_updated', loadData);
+    return () => window.removeEventListener('staynest_store_updated', loadData);
   }, []);
 
   const filteredStudents = students.filter((s) => {
@@ -84,7 +84,7 @@ export const StudentsPage: React.FC = () => {
       s.fee_status,
       s.account_status,
     ]);
-    dataStore.exportToCSV('hostelease_students_list', headers, rows);
+    dataStore.exportToCSV('staynest_students_list', headers, rows);
   };
 
   const handleSaveStudent = (e: React.FormEvent) => {

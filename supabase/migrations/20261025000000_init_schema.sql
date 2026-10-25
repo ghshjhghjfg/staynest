@@ -1,5 +1,5 @@
 -- ====================================================================
--- HostelEase: Smart Hostel Administration & Student Welfare Platform
+-- staynest: Smart Hostel Administration & Student Welfare Platform
 -- Complete PostgreSQL Schema with Constraints, Indexes, and RLS Policies
 -- ====================================================================
 
