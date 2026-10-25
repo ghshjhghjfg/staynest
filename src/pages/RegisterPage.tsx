@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Building2, AlertCircle, ArrowRight, CheckCircle2, ShieldCheck } from 'lucide-react';
+import {
+  Building2,
+  AlertCircle,
+  ArrowRight,
+  CheckCircle2,
+  ShieldCheck,
+  BedDouble,
+  GraduationCap,
+  Sparkles,
+} from 'lucide-react';
 import { useAuth } from '../features/auth/AuthContext';
 
 export const RegisterPage: React.FC = () => {
@@ -66,233 +75,342 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F3F3] flex flex-col justify-center py-10 px-4 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-2xl">
-        <div className="flex justify-center">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-lg bg-[#0C1629] flex items-center justify-center text-white">
-              <Building2 className="w-6 h-6 text-white" />
+    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        {/* LEFT COLUMN: Registration Logo, Brand Branding & Onboarding Preview */}
+        <div className="lg:col-span-5 space-y-6 pt-2 lg:sticky lg:top-8">
+          {/* Logo Badge */}
+          <Link to="/" className="inline-flex items-center gap-3 group">
+            <div className="w-14 h-14 rounded-2xl bg-[#2563EB] flex items-center justify-center text-white shadow-lg shadow-blue-500/25 transition-transform group-hover:scale-105">
+              <Building2 className="w-7 h-7 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-[#0C1629]">staynest</span>
-          </Link>
-        </div>
-        <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-[#0C1629]">
-          Student Resident Registration
-        </h2>
-        <p className="mt-1 text-center text-xs text-[#727A84]">
-          Create your verified hostel resident account. Room allocation is reviewed by the warden upon admission.
-        </p>
-      </div>
-
-      <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-2xl">
-        <div className="bg-[#FEFEFE] py-8 px-6 shadow-sm border border-[#D6DCE0] rounded-xl sm:px-10">
-          {/* Security Banner */}
-          <div className="mb-6 p-3 rounded-lg bg-[#356B9A]/10 border border-[#356B9A]/20 flex items-center gap-3 text-xs text-[#0C1629]">
-            <ShieldCheck className="w-5 h-5 text-[#356B9A] shrink-0" />
             <div>
-              <span className="font-semibold text-[#0C1629]">Role-Secured Registration: </span>
-              <span className="text-[#727A84]">
-                Public sign-ups automatically receive resident student privileges. Administrative roles are provisioned by institutional authorities only.
+              <span className="text-3xl font-extrabold tracking-tight text-[#0C1629] block">
+                staynest
               </span>
+              <span className="text-[11px] font-bold text-[#2563EB] tracking-wider uppercase">
+                Campus living, connected
+              </span>
+            </div>
+          </Link>
+
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0C1629] tracking-tight leading-tight">
+              Begin your resident journey with staynest
+            </h1>
+            <p className="mt-3 text-sm sm:text-base text-[#475569] leading-relaxed">
+              Create your verified student resident account. Once registered, your application is
+              reviewed for room and bed allocation across our modern campus residence blocks.
+            </p>
+          </div>
+
+          {/* 3-Step Journey Card */}
+          <div className="p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs space-y-3.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#2563EB] flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>How your room allocation works</span>
+            </h4>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-[#EFF6FF] text-[#2563EB] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                  1
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-[#0C1629]">Create student profile</p>
+                  <p className="text-[11px] text-[#64748B]">Fill in your student roll number and emergency contacts.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-[#EFF6FF] text-[#2563EB] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                  2
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-[#0C1629]">Warden room review</p>
+                  <p className="text-[11px] text-[#64748B]">Beds are allocated based on year and wing availability.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-[#EFF6FF] text-[#2563EB] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                  3
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-[#0C1629]">Move in & connect</p>
+                  <p className="text-[11px] text-[#64748B]">View room details, weekly meals, and download fee vouchers.</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {errorMessage && (
-            <div className="mb-5 p-3 rounded-md bg-[#B54747]/10 border border-[#B54747]/20 flex items-start gap-2.5 text-xs text-[#B54747]">
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-              <span>{errorMessage}</span>
+          {/* Room Visual Card */}
+          <div className="relative rounded-2xl overflow-hidden shadow-sm border border-[#E2E8F0] aspect-[16/9] hidden sm:block">
+            <img
+              src="/dorm-room.jpg"
+              alt="Triple-Sharing Dormitory"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">
+              <p className="text-xs font-semibold text-white flex items-center gap-1.5">
+                <BedDouble className="w-4 h-4 text-[#60A5FA]" />
+                <span>Comfortable Triple-Sharing Spaces · Wi-Fi & Study Desks</span>
+              </p>
             </div>
-          )}
+          </div>
 
-          {successNotice && (
-            <div className="mb-5 p-4 rounded-md bg-[#287A52]/10 border border-[#287A52]/20 flex items-center gap-3 text-xs text-[#287A52]">
-              <CheckCircle2 className="w-5 h-5 shrink-0" />
-              <div>
-                <p className="font-semibold">Account created successfully!</p>
-                <p className="text-[11px] text-[#287A52]/80">Redirecting to your student dashboard...</p>
-              </div>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Section 1: Personal & Account Credentials */}
+          {/* Security Banner */}
+          <div className="p-3.5 rounded-2xl bg-[#EFF6FF] border border-[#BFDBFE] flex items-center gap-3 text-xs text-[#1E3A8A]">
+            <ShieldCheck className="w-5 h-5 text-[#2563EB] shrink-0" />
             <div>
-              <h3 className="text-xs font-bold text-[#0C1629] uppercase tracking-wider pb-2 border-b border-[#D6DCE0]">
-                1. Account & Identity
-              </h3>
-              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Full Name *</label>
+              <span className="font-bold">Role-Secured Registration: </span>
+              <span className="text-[#3B82F6]">
+                New sign-ups automatically receive verified Student Resident status.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: Registration Form (Slightly shifted to right) */}
+        <div className="lg:col-span-7 flex justify-end">
+          <div className="w-full max-w-xl lg:ml-auto bg-white py-8 px-6 sm:px-10 rounded-3xl shadow-xl border border-[#E2E8F0]">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold tracking-tight text-[#0C1629]">
+                Student Registration
+              </h2>
+              <p className="mt-1 text-xs sm:text-sm text-[#64748B]">
+                Fill in your details below to create your campus residence account.
+              </p>
+            </div>
+
+            {errorMessage && (
+              <div className="mb-5 p-3 rounded-xl bg-red-50 border border-red-200 flex items-start gap-2.5 text-xs text-red-600 animate-in fade-in duration-150">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
+            {successNotice && (
+              <div className="mb-5 p-4 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2.5 text-xs text-emerald-800 font-medium">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                <span>Account registered successfully! Redirecting to your dashboard...</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Personal Info */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                    Full Name *
+                  </label>
                   <input
                     type="text"
                     required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="e.g. Rahul Varma"
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629]"
+                    placeholder="e.g. Maya Patel"
+                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
                   />
                 </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Email Address *</label>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="student@institution.edu"
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Password *</label>
-                  <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Min 6 characters"
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Confirm Password *</label>
-                  <input
-                    type="password"
-                    required
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Re-enter password"
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629]"
-                  />
-                </div>
-              </div>
-            </div>
 
-            {/* Section 2: Academic Details */}
-            <div>
-              <h3 className="text-xs font-bold text-[#0C1629] uppercase tracking-wider pb-2 border-b border-[#D6DCE0]">
-                2. Academic Information
-              </h3>
-              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Roll / Student ID *</label>
+                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                    Student ID / Roll No *
+                  </label>
                   <input
                     type="text"
                     required
                     value={studentCode}
                     onChange={(e) => setStudentCode(e.target.value)}
-                    placeholder="e.g. HE-2025-099"
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629]"
+                    placeholder="e.g. SN-2024-089"
+                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Contact Phone *</label>
-                  <input
-                    type="tel"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+91 98765 00000"
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629]"
-                  />
+                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                    Gender *
+                  </label>
+                  <select
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value as any)}
+                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Department</label>
+                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                    Department *
+                  </label>
                   <select
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden"
+                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
                   >
                     <option value="Computer Science & Eng">Computer Science & Eng</option>
                     <option value="Electronics & Comm">Electronics & Comm</option>
-                    <option value="Mechanical Engineering">Mechanical Engineering</option>
-                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Mechanical Eng">Mechanical Eng</option>
+                    <option value="Civil Eng">Civil Eng</option>
                     <option value="Biotechnology">Biotechnology</option>
-                    <option value="Information Technology">Information Technology</option>
-                    <option value="Electrical Engineering">Electrical Engineering</option>
+                    <option value="Management Studies">Management Studies</option>
                   </select>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Academic Year</label>
+                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                    Academic Year *
+                  </label>
                   <select
                     value={academicYear}
                     onChange={(e) => setAcademicYear(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden"
+                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
                   >
                     <option value="1st Year">1st Year</option>
                     <option value="2nd Year">2nd Year</option>
                     <option value="3rd Year">3rd Year</option>
                     <option value="4th Year">4th Year</option>
+                    <option value="Postgraduate">Postgraduate</option>
                   </select>
                 </div>
-              </div>
-            </div>
 
-            {/* Section 3: Guardian & Emergency Contacts */}
-            <div>
-              <h3 className="text-xs font-bold text-[#0C1629] uppercase tracking-wider pb-2 border-b border-[#D6DCE0]">
-                3. Guardian & Emergency Contacts
-              </h3>
-              <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Guardian Name *</label>
-                  <input
-                    type="text"
-                    required
-                    value={guardianName}
-                    onChange={(e) => setGuardianName(e.target.value)}
-                    placeholder="Parent / Guardian"
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Guardian Phone *</label>
+                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                    Student Phone *
+                  </label>
                   <input
                     type="tel"
                     required
-                    value={guardianPhone}
-                    onChange={(e) => setGuardianPhone(e.target.value)}
-                    placeholder="+91 98450 00000"
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629]"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+91 98765 43210"
+                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">Emergency Contact *</label>
+                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                    University Email *
+                  </label>
                   <input
-                    type="tel"
+                    type="email"
                     required
-                    value={emergencyContact}
-                    onChange={(e) => setEmergencyContact(e.target.value)}
-                    placeholder="24/7 reachable number"
-                    className="w-full px-3 py-2 bg-white border border-[#D6DCE0] rounded-md text-xs text-[#0C1629] focus:outline-hidden focus:border-[#0C1629]"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="student@staynest.edu"
+                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                    Password (min 6 characters) *
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                    Confirm Password *
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
                   />
                 </div>
               </div>
-            </div>
 
-            <div className="pt-2">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3 px-4 bg-[#0C1629] hover:bg-[#1A2942] disabled:opacity-50 text-white rounded-md text-xs font-semibold shadow-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
-              >
-                {loading ? (
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                  <>
-                    <span>Submit Student Registration</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
+              {/* Guardian Info */}
+              <div className="pt-2 border-t border-[#E2E8F0]">
+                <h3 className="text-xs font-bold text-[#0C1629] mb-2 uppercase tracking-wide">
+                  Parent / Guardian & Emergency Verification
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                      Guardian Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={guardianName}
+                      onChange={(e) => setGuardianName(e.target.value)}
+                      placeholder="e.g. Ramesh Patel"
+                      className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
+                    />
+                  </div>
 
-          <div className="mt-6 text-center text-xs text-[#727A84]">
-            Already registered?{' '}
-            <Link to="/login" className="font-semibold text-[#0C1629] hover:underline">
-              Sign in to your account
-            </Link>
+                  <div>
+                    <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                      Guardian Phone *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={guardianPhone}
+                      onChange={(e) => setGuardianPhone(e.target.value)}
+                      placeholder="+91 94444 12345"
+                      className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                      Emergency Contact Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={emergencyContact}
+                      onChange={(e) => setEmergencyContact(e.target.value)}
+                      placeholder="+91 98888 56789"
+                      className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-3">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3.5 px-4 bg-[#2563EB] hover:bg-[#1D4ED8] disabled:bg-[#93C5FD] text-white text-xs font-semibold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  {loading ? (
+                    <span>Registering resident profile...</span>
+                  ) : (
+                    <>
+                      <span>Complete Student Registration</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+
+            <div className="mt-6 pt-5 border-t border-[#E2E8F0] text-center">
+              <p className="text-xs text-[#64748B]">
+                Already have an account?{' '}
+                <Link
+                  to="/login"
+                  className="font-bold text-[#2563EB] hover:underline inline-flex items-center gap-1"
+                >
+                  Sign in here <ArrowRight className="w-3 h-3" />
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>

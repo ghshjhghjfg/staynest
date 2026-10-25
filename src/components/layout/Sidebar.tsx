@@ -63,33 +63,33 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
   const getRoleBadgeStyle = (r: string) => {
     switch (r) {
       case 'admin':
-        return 'bg-[#0C1629] text-white border-none';
+        return 'bg-[#2563EB] text-white border-none';
       case 'warden':
-        return 'bg-[#356B9A] text-white border-none';
+        return 'bg-[#3B82F6] text-white border-none';
       case 'staff':
-        return 'bg-[#287A52] text-white border-none';
+        return 'bg-[#10B981] text-white border-none';
       default:
-        return 'bg-[#A66B16] text-white border-none';
+        return 'bg-[#F59E0B] text-white border-none';
     }
   };
 
   const content = (
-    <div className="flex flex-col h-full bg-[#0C1629] text-white w-64 select-none border-r border-[#1A2942]">
+    <div className="flex flex-col h-full bg-[#0C1629] text-white w-64 select-none border-r border-[#1E293B]">
       {/* Brand Header */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-[#1A2942]/60">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-[#1E293B]">
         <NavLink to="/dashboard" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#356B9A] flex items-center justify-center text-white font-bold shadow-sm">
+          <div className="w-8 h-8 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-bold shadow-sm">
             <Building2 className="w-5 h-5 text-white" />
           </div>
           <div className="flex flex-col">
             <span className="text-base font-bold tracking-tight text-white leading-tight">staynest</span>
-            <span className="text-[10px] text-[#B5C1C8] font-medium tracking-wide uppercase">Welfare & Ops</span>
+            <span className="text-[10px] text-[#94A3B8] font-medium tracking-wide uppercase">Welfare & Ops</span>
           </div>
         </NavLink>
         {mobileOpen && (
           <button
             onClick={onCloseMobile}
-            className="p-1.5 rounded-md text-[#B5C1C8] hover:text-white hover:bg-[#1A2942] md:hidden"
+            className="p-1.5 rounded-md text-[#94A3B8] hover:text-white hover:bg-[#1E293B] md:hidden cursor-pointer"
             aria-label="Close menu"
           >
             <X className="w-5 h-5" />
@@ -98,8 +98,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
       </div>
 
       {/* Role Indicator Banner */}
-      <div className="px-5 py-2.5 bg-[#14233D] flex items-center justify-between border-b border-[#1A2942]">
-        <span className="text-xs text-[#B5C1C8] font-medium">Logged in as</span>
+      <div className="px-5 py-2.5 bg-[#111E36] flex items-center justify-between border-b border-[#1E293B]">
+        <span className="text-xs text-[#94A3B8] font-medium">Logged in as</span>
         <span className={`text-[11px] font-semibold uppercase px-2 py-0.5 rounded ${getRoleBadgeStyle(role)}`}>
           {role}
         </span>
@@ -116,14 +116,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               end={item.path === '/dashboard'}
               onClick={onCloseMobile}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors ${
+                `flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                   isActive
-                    ? 'bg-[#1E3253] text-white shadow-sm font-semibold'
-                    : 'text-[#B5C1C8] hover:text-white hover:bg-[#14233D]'
+                    ? 'bg-[#2563EB] text-white shadow-sm font-semibold'
+                    : 'text-[#94A3B8] hover:text-white hover:bg-[#1E293B]'
                 }`
               }
             >
-              <Icon className="w-4 h-4 shrink-0 text-[#B5C1C8] group-hover:text-white" />
+              <Icon className="w-4 h-4 shrink-0 text-[#94A3B8] group-hover:text-white" />
               <span>{item.label}</span>
             </NavLink>
           );
@@ -131,17 +131,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
       </nav>
 
       {/* User Footer & Logout */}
-      <div className="p-3 border-t border-[#1A2942] bg-[#091120]">
-        <div className="flex items-center justify-between gap-2 px-2 py-2 rounded-md bg-[#14233D]/60 border border-[#1A2942]">
+      <div className="p-3 border-t border-[#1E293B] bg-[#091120]">
+        <div className="flex items-center justify-between gap-2 px-2.5 py-2 rounded-xl bg-[#111E36] border border-[#1E293B]">
           <div className="flex items-center gap-2.5 min-w-0">
             {currentUser?.avatar_url ? (
               <img
                 src={currentUser.avatar_url}
                 alt={currentUser.full_name}
-                className="w-8 h-8 rounded-full object-cover shrink-0 border border-[#356B9A]/40"
+                className="w-8 h-8 rounded-full object-cover shrink-0 border border-[#2563EB]/40"
               />
             ) : (
-              <div className="w-8 h-8 rounded-full bg-[#1A2942] flex items-center justify-center text-xs font-semibold text-white shrink-0">
+              <div className="w-8 h-8 rounded-full bg-[#1E293B] flex items-center justify-center text-xs font-semibold text-white shrink-0">
                 {currentUser?.full_name?.charAt(0) || 'U'}
               </div>
             )}
@@ -149,13 +149,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               <p className="text-xs font-medium text-white truncate leading-tight">
                 {currentUser?.full_name || 'Guest User'}
               </p>
-              <p className="text-[11px] text-[#B5C1C8] truncate">{currentUser?.email}</p>
+              <p className="text-[11px] text-[#94A3B8] truncate">{currentUser?.email}</p>
             </div>
           </div>
           <button
             onClick={handleLogoutClick}
             title="Sign Out of staynest"
-            className="p-1.5 rounded text-[#B5C1C8] hover:text-red-400 hover:bg-[#1A2942] transition-colors shrink-0 cursor-pointer"
+            className="p-1.5 rounded-lg text-[#94A3B8] hover:text-red-400 hover:bg-[#1E293B] transition-colors shrink-0 cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
           </button>

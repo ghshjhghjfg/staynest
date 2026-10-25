@@ -48,20 +48,20 @@ export function getStatusBadgeClasses(status: string): string {
   const normalized = status.toLowerCase();
   
   if (['paid', 'active', 'approved', 'resolved', 'completed', 'present', 'inside'].includes(normalized)) {
-    return 'bg-[#287A52]/10 text-[#287A52] border border-[#287A52]/20';
+    return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
   }
   
   if (['pending', 'in progress', 'assigned', 'partially paid', 'submitted'].includes(normalized)) {
-    return 'bg-[#A66B16]/10 text-[#A66B16] border border-[#A66B16]/20';
+    return 'bg-amber-50 text-amber-700 border border-amber-200';
   }
   
   if (['rejected', 'absent', 'overdue', 'cancelled', 'urgent', 'high'].includes(normalized)) {
-    return 'bg-[#B54747]/10 text-[#B54747] border border-[#B54747]/20';
+    return 'bg-red-50 text-red-700 border border-red-200';
   }
   
   if (['checked out', 'closed', 'released', 'on leave'].includes(normalized)) {
-    return 'bg-[#727A84]/15 text-[#0C1629] border border-[#727A84]/25';
+    return 'bg-slate-100 text-slate-700 border border-slate-200';
   }
   
-  return 'bg-[#356B9A]/10 text-[#356B9A] border border-[#356B9A]/20';
+  return 'bg-blue-50 text-[#2563EB] border border-blue-200';
 }

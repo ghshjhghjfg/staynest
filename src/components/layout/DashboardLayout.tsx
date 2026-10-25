@@ -13,7 +13,7 @@ export const DashboardLayout: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#F0F3F3]">
+    <div className="flex min-h-screen bg-[#F8FAFC]">
       <Sidebar mobileOpen={mobileOpen} onCloseMobile={() => setMobileOpen(false)} />
       <div className="flex-1 flex flex-col min-w-0">
         <Header onOpenMobile={() => setMobileOpen(true)} />
