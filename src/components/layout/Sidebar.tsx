@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -48,7 +48,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
 
   const filteredItems = navItems.filter((item) => canAccessModule(role, item.module));
 
-  const handleLogout = () => {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowLogoutModal(false);
     logout();
     navigate('/'); // Redirect to landing page as requested
   };
@@ -146,8 +153,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             </div>
           </div>
           <button
-            onClick={handleLogout}
-            title="Sign Out to Landing Page"
+            onClick={handleLogoutClick}
+            title="Sign Out of staynest"
             className="p-1.5 rounded text-[#B5C1C8] hover:text-red-400 hover:bg-[#1A2942] transition-colors shrink-0 cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
@@ -168,6 +175,44 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
           <div className="fixed inset-0 bg-black/60 backdrop-blur-xs" onClick={onCloseMobile} />
           <div className="relative flex-1 flex flex-col max-w-xs w-full shadow-2xl z-10 animate-in slide-in-from-left duration-200">
             {content}
+          </div>
+        </div>
+      )}
+
+      {/* Sign Out Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div
+            className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-[#D6DCE0] text-center transform animate-in zoom-in-95 duration-150"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4 border border-red-100">
+              <LogOut className="w-6 h-6" />
+            </div>
+
+            <h3 className="text-base font-bold text-[#0C1629] mb-1.5">
+              Sign out of staynest?
+            </h3>
+            <p className="text-xs text-[#727A84] mb-6 leading-relaxed">
+              Are you sure you want to end your current session? You will be redirected to the landing page.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-2.5">
+              <button
+                type="button"
+                onClick={() => setShowLogoutModal(false)}
+                className="w-full py-2.5 px-4 rounded-xl border border-[#D6DCE0] text-xs font-semibold text-[#0C1629] hover:bg-[#F0F3F3] transition-colors cursor-pointer"
+              >
+                Stay signed in
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmLogout}
+                className="w-full py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-semibold transition-colors shadow-xs cursor-pointer"
+              >
+                Sign out
+              </button>
+            </div>
           </div>
         </div>
       )}
