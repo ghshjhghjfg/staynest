@@ -9,6 +9,11 @@ import {
   BedDouble,
   GraduationCap,
   Sparkles,
+  Eye,
+  EyeOff,
+  Check,
+  X,
+  KeyRound,
 } from 'lucide-react';
 import { useAuth } from '../features/auth/AuthContext';
 
@@ -20,6 +25,9 @@ export const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [phone, setPhone] = useState('');
   const [studentCode, setStudentCode] = useState('');
   const [department, setDepartment] = useState('Computer Science & Eng');
@@ -33,6 +41,107 @@ export const RegisterPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successNotice, setSuccessNotice] = useState(false);
 
+  // Live 5-Criteria Verification Checklist
+  const criteria = [
+    {
+      id: 'length',
+      label: 'At least 8 characters',
+      met: password.length >= 8,
+    },
+    {
+      id: 'upper',
+      label: 'At least one uppercase letter (A-Z)',
+      met: /[A-Z]/.test(password),
+    },
+    {
+      id: 'lower',
+      label: 'At least one lowercase letter (a-z)',
+      met: /[a-z]/.test(password),
+    },
+    {
+      id: 'number',
+      label: 'At least one number (0-9)',
+      met: /[0-9]/.test(password),
+    },
+    {
+      id: 'symbol',
+      label: 'At least one special symbol (!@#$%^&*)',
+      met: /[!@#$%^&*]/.test(password),
+    },
+  ];
+
+  const metCount = criteria.filter((c) => c.met).length;
+  const isPasswordValid = metCount === 5;
+
+  // Real-time visual indicator displaying Weak, Moderate, or Strong & Verified status
+  const getStrengthInfo = () => {
+    if (!password) {
+      return {
+        status: 'Weak' as const,
+        barClass: 'w-0 bg-[#E2E8F0]',
+        badgeClass: 'text-[#64748B] bg-[#F1F5F9] border border-[#E2E8F0]',
+      };
+    }
+    if (metCount === 5) {
+      return {
+        status: 'Strong & Verified' as const,
+        barClass: 'w-full bg-[#10B981]',
+        badgeClass: 'text-[#065F46] bg-[#D1FAE5] border border-[#A7F3D0]',
+      };
+    }
+    if (metCount >= 3) {
+      return {
+        status: 'Moderate' as const,
+        barClass: 'w-2/3 bg-[#F59E0B]',
+        badgeClass: 'text-[#92400E] bg-[#FEF3C7] border border-[#FDE68A]',
+      };
+    }
+    return {
+      status: 'Weak' as const,
+      barClass: 'w-1/3 bg-[#EF4444]',
+      badgeClass: 'text-[#991B1B] bg-[#FEE2E2] border border-[#FECACA]',
+    };
+  };
+
+  const strength = getStrengthInfo();
+
+  // "Suggest Strong Password" Button: Generates a secure high-entropy password,
+  // fills both password and confirmation fields, and reveals the text for saving/viewing
+  const handleSuggestStrongPassword = () => {
+    const uppercaseChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    const lowercaseChars = 'abcdefghijkmnopqrstuvwxyz';
+    const numberChars = '23456789';
+    const symbolChars = '!@#$%^&*';
+    const allChars = uppercaseChars + lowercaseChars + numberChars + symbolChars;
+
+    // Guaranteed one of each required criteria
+    const chars = [
+      uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)],
+      lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)],
+      numberChars[Math.floor(Math.random() * numberChars.length)],
+      symbolChars[Math.floor(Math.random() * symbolChars.length)],
+    ];
+
+    // Add 10 additional characters (total 14 characters)
+    for (let i = 0; i < 10; i++) {
+      chars.push(allChars[Math.floor(Math.random() * allChars.length)]);
+    }
+
+    // Shuffle using Fisher-Yates
+    for (let i = chars.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [chars[i], chars[j]] = [chars[j], chars[i]];
+    }
+
+    const generatedPassword = chars.join('');
+    setPassword(generatedPassword);
+    setConfirmPassword(generatedPassword);
+    // Reveal text for saving/viewing
+    setShowPassword(true);
+    setShowConfirmPassword(true);
+    setErrorMessage('');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
@@ -40,7 +149,9 @@ export const RegisterPage: React.FC = () => {
     // Validations
     if (!fullName.trim()) return setErrorMessage('Full Name is required.');
     if (!email.trim() || !email.includes('@')) return setErrorMessage('A valid email address is required.');
-    if (password.length < 6) return setErrorMessage('Password must be at least 6 characters.');
+    if (!isPasswordValid) {
+      return setErrorMessage('Please fulfill all 5 password verification criteria (must be Strong & Verified).');
+    }
     if (password !== confirmPassword) return setErrorMessage('Passwords do not match.');
     if (!studentCode.trim()) return setErrorMessage('Student ID / Roll Number is required.');
     if (!phone.trim()) return setErrorMessage('Phone number is required.');
@@ -66,8 +177,9 @@ export const RegisterPage: React.FC = () => {
 
     if (result.success) {
       setSuccessNotice(true);
+      // Post-Registration Transition to Login
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate(`/login?registered=true&email=${encodeURIComponent(email.trim())}`);
       }, 1500);
     } else {
       setErrorMessage(result.error || 'Registration failed.');
@@ -188,9 +300,17 @@ export const RegisterPage: React.FC = () => {
             )}
 
             {successNotice && (
-              <div className="mb-5 p-4 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2.5 text-xs text-emerald-800 font-medium">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                <span>Account registered successfully! Redirecting to your dashboard...</span>
+              <div className="mb-5 p-4 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between gap-3 text-xs text-emerald-800 font-medium">
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <span>Account registered successfully! Transitioning to login to sign in...</span>
+                </div>
+                <Link
+                  to={`/login?registered=true&email=${encodeURIComponent(email.trim())}`}
+                  className="font-bold text-emerald-700 underline text-[11px] shrink-0"
+                >
+                  Sign In Now →
+                </Link>
               </div>
             )}
 
@@ -303,32 +423,124 @@ export const RegisterPage: React.FC = () => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
-                    Password (min 6 characters) *
-                  </label>
-                  <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
-                  />
+                {/* Password field with Suggest Strong Password Button & Strength Meter */}
+                <div className="sm:col-span-2 space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <label className="text-xs font-semibold text-[#0C1629]">
+                      Password *
+                    </label>
+                    <button
+                      type="button"
+                      onClick={handleSuggestStrongPassword}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-[#2563EB] bg-[#EFF6FF] hover:bg-[#DBEAFE] border border-[#BFDBFE] rounded-lg transition-colors cursor-pointer"
+                      title="Generates a secure high-entropy password, fills both fields, and reveals text"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
+                      <span>Suggest Strong Password</span>
+                    </button>
+                  </div>
+
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Enter strong password or click suggest above"
+                      className="w-full pl-3.5 pr-10 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all font-mono tracking-normal"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#0C1629] p-1 cursor-pointer"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+
+                  {/* Password Strength Meter: Real-time visual indicator */}
+                  <div className="space-y-1.5 pt-1">
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="font-medium text-[#64748B]">Password Strength Meter:</span>
+                      <span className={`px-2 py-0.5 rounded-md font-bold text-[10px] ${strength.badgeClass}`}>
+                        {strength.status}
+                      </span>
+                    </div>
+                    <div className="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
+                      <div
+                        className={`h-full transition-all duration-300 ${strength.barClass}`}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Live 5-Criteria Verification Checklist */}
+                  <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2 mt-2">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[11px] font-bold text-[#0C1629] uppercase tracking-wider">
+                        Live 5-Criteria Verification Checklist
+                      </p>
+                      <span className="text-[10px] font-semibold text-[#64748B]">
+                        {metCount} of 5 satisfied
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                      {criteria.map((c) => (
+                        <div
+                          key={c.id}
+                          className={`flex items-center gap-2 p-1.5 rounded-lg border transition-all ${
+                            c.met
+                              ? 'bg-[#ECFDF5] border-[#A7F3D0] text-[#065F46] font-medium'
+                              : 'bg-white border-[#E2E8F0] text-[#64748B]'
+                          }`}
+                        >
+                          {c.met ? (
+                            <Check className="w-3.5 h-3.5 text-[#10B981] shrink-0" />
+                          ) : (
+                            <div className="w-3.5 h-3.5 rounded-full border border-[#CBD5E1] shrink-0 flex items-center justify-center">
+                              <span className="w-1 h-1 rounded-full bg-[#94A3B8]" />
+                            </div>
+                          )}
+                          <span>{c.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-[#0C1629] mb-1">
+                {/* Confirm Password field */}
+                <div className="sm:col-span-2 space-y-1.5">
+                  <label className="block text-xs font-semibold text-[#0C1629]">
                     Confirm Password *
                   </label>
-                  <input
-                    type="password"
-                    required
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Re-enter your password to confirm"
+                      className="w-full pl-3.5 pr-10 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl text-xs text-[#0C1629] placeholder-[#94A3B8] focus:bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all font-mono tracking-normal"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#0C1629] p-1 cursor-pointer"
+                      aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                    >
+                      {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  {confirmPassword && password !== confirmPassword && (
+                    <p className="text-[11px] text-red-600 font-medium flex items-center gap-1">
+                      <X className="w-3.5 h-3.5" /> Passwords do not match
+                    </p>
+                  )}
+                  {confirmPassword && password === confirmPassword && (
+                    <p className="text-[11px] text-emerald-600 font-medium flex items-center gap-1">
+                      <Check className="w-3.5 h-3.5" /> Passwords match & verified
+                    </p>
+                  )}
                 </div>
               </div>
 

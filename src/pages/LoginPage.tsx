@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Building2, Eye, EyeOff, AlertCircle, ArrowRight, ShieldCheck, Check, Sparkles } from 'lucide-react';
+import { Building2, Eye, EyeOff, AlertCircle, ArrowRight, ShieldCheck, Check, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../features/auth/AuthContext';
 import { SEED_PROFILES } from '../services/seedData';
 
@@ -15,10 +15,16 @@ export const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Auto-fill from query param if available (e.g., ?role=student or ?role=admin)
+  const isRegistered = searchParams.get('registered') === 'true';
+
+  // Auto-fill from query param if available (e.g., from registration or ?role=student or ?role=admin)
   useEffect(() => {
+    const emailParam = searchParams.get('email');
     const roleParam = searchParams.get('role');
-    if (roleParam === 'student') {
+
+    if (emailParam) {
+      setEmail(emailParam);
+    } else if (roleParam === 'student') {
       setEmail('student@staynest.edu');
       setPassword('demo1234');
     } else if (roleParam === 'admin') {
@@ -156,6 +162,13 @@ export const LoginPage: React.FC = () => {
                 Enter your university email and password below.
               </p>
             </div>
+
+            {isRegistered && (
+              <div className="mb-5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2.5 text-xs text-emerald-800 font-medium animate-in fade-in duration-150">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Account registered successfully! Please sign in with your credentials.</span>
+              </div>
+            )}
 
             {errorMessage && (
               <div className="mb-5 p-3 rounded-xl bg-red-50 border border-red-200 flex items-start gap-2.5 text-xs text-red-600 animate-in fade-in duration-150">
